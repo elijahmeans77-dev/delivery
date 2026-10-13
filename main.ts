@@ -13,7 +13,7 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . . . 3 3 3 3 3 3 . . . .
         . . . . . 3 3 d d 3 3 3 3 . . .
         . . . . . c d 3 3 3 3 3 c . . .
-        . . . . 3 c d 3 3 3 3 3 c 3 . .
+        . . . . 3 c d 3 3 3 3 3 c 3 . . .
         . . . a 3 c d 3 3 3 3 3 c 3 a .
         . . . f 3 c d 3 3 3 3 3 c 3 f .
         . . . f a c 3 3 3 3 3 3 c a f .
@@ -33,7 +33,7 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . . . . e e e e e e e . .
         . . . . . . e d d d d d e e . .
         . . . . . e d d d d d d e e . .
-        . . . . e d d d d d d e d e . .
+        . . . . . e d d d d d d e d e . .
         . . . . e e e e e e e d d e . .
         . . . . e d d d d d e d d e . .
         . . . . e d d d d d e d d e . .
@@ -104,7 +104,7 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
         . a a a a a a f f f a a a a a a
         . a f f f f a a a a f f f a a a
         . . f f f f f a a f f f f f a .
-        . . . f f f . . . . f f f f . .
+        . . . f f f f . . . . f f f f .
         . . . . . . . . . . . . . . . .
         `)
 })
@@ -135,6 +135,11 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Object, function (sprite, ot
     music.magicWand.play()
     sprite.destroy(effects.confetti, 500)
     info.changeScoreBy(1)
+    // Win when the player has delivered 5 packages
+    if (info.score() >= 5) {
+        game.setGameOverEffect(true, effects.confetti)
+        game.gameOver(true)
+    }
 })
 // Lose a point for driving into a house
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Object, function (sprite, otherSprite) {
@@ -161,7 +166,7 @@ let car = sprites.create(img`
     . a a a a a a f f f a a a a a a
     . a f f f f a a a a f f f a a a
     . . f f f f f a a f f f f f a .
-    . . . f f f . . . . f f f f . .
+    . . . f f f f . . . . f f f f .
     . . . . . . . . . . . . . . . .
     `, SpriteKind.Player)
 tiles.placeOnRandomTile(car, myTiles.tile4)
