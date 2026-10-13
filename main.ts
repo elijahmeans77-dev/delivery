@@ -175,7 +175,7 @@ scene.cameraFollowSprite(car)
 
 // Helper to detect whether the car is on a road tile
 function isOnRoad(s: Sprite): boolean {
-    const loc = tiles.locationOfSprite(s)
+    const loc = tiles.locationOfPoint(s.x, s.y)
     return tiles.tileAtLocationEquals(loc, sprites.vehicle.roadHorizontal) ||
         tiles.tileAtLocationEquals(loc, sprites.vehicle.roadVertical) ||
         tiles.tileAtLocationEquals(loc, sprites.vehicle.roadTurn1) ||
