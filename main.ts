@@ -74,7 +74,7 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . . . 3 3 3 3 3 3 3 3 . .
         . . . . . 3 c 3 3 3 3 3 3 d 3 .
         . . . . 3 c c 3 3 3 3 3 3 d c 3
-        . . d 3 d c c 3 d d d d d d c c
+        . . . d 3 d c c 3 d d d d d d c c
         . d 3 3 d c b a a a a a a a 3 c
         . 3 3 3 d b a a b b b a b b a 3
         . 3 3 3 3 3 a b b b b a b b b a
@@ -172,6 +172,25 @@ let car = sprites.create(img`
 tiles.placeOnRandomTile(car, myTiles.tile4)
 controller.moveSprite(car)
 scene.cameraFollowSprite(car)
+
+// Helper to detect whether the car is on a road tile
+function isOnRoad(s: Sprite): boolean {
+    const loc = tiles.locationOfSprite(s)
+    return tiles.tileAtLocationEquals(loc, sprites.vehicle.roadHorizontal) ||
+        tiles.tileAtLocationEquals(loc, sprites.vehicle.roadVertical) ||
+        tiles.tileAtLocationEquals(loc, sprites.vehicle.roadTurn1) ||
+        tiles.tileAtLocationEquals(loc, sprites.vehicle.roadTurn2) ||
+        tiles.tileAtLocationEquals(loc, sprites.vehicle.roadTurn3) ||
+        tiles.tileAtLocationEquals(loc, sprites.vehicle.roadTurn4)
+}
+
+// If the player is off the road, lose 2 points every second
+game.onUpdateInterval(1000, function () {
+    if (!isOnRoad(car)) {
+        info.changeScoreBy(-2)
+    }
+})
+
 for (let value of tiles.getTilesByType(myTiles.tile1)) {
     let myPurpleHouse = sprites.create(img`
         ....................8a8aa8a8....................
@@ -278,3 +297,4 @@ for (let value of tiles.getTilesByType(myTiles.tile2)) {
         `, SpriteKind.Object)
     tiles.placeOnTile(myRedHouse, value)
 }
+
